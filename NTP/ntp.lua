@@ -30,13 +30,14 @@ sk:on("receive", function(sck, payload)
      day = ((ntpstamp % 15778800) + (year % 4 * 10800)) / 43200 +1
      month=1
      while (day>dayspermonth[month]) do
-          day = day - dayspermonth[month]
+          day = day - tonumber(dayspermonth[month])
           if ((year % 4 < 1) and (month == 2)) then day=day-1 end    -- february in leapyears
           month=month+1
      end
      print(string.format("%02u.%02u.%04u",day,month,year))
      print(string.format("%02u:%02u:%02u",hour,minute,second))
      sck:close()
+     sk:close()
 end )
 sk:connect(123,"130.149.17.21")    -- TU-Berlin
 sk:send(request)
